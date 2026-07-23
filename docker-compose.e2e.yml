@@ -1,0 +1,21 @@
+# A throwaway, real Atlantis server for e2e tests. It boots with fake VCS
+# credentials (Atlantis does not validate them at startup), which is enough to
+# serve /healthz, /status, /api/locks, the index page and the job WebSocket
+# against empty state.
+services:
+  atlantis:
+    image: ghcr.io/runatlantis/atlantis:v0.46.0
+    command:
+      - server
+      - --gh-user=test
+      - --gh-token=test
+      - --gh-webhook-secret=test
+      - "--repo-allowlist=*"
+      - --atlantis-url=http://localhost:4141
+    ports:
+      - "4141:4141"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:4141/healthz"]
+      interval: 3s
+      timeout: 3s
+      retries: 20

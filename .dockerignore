@@ -1,0 +1,6 @@
+.git
+.github
+.claude
+/atlantis-mcp
+docker-compose.e2e.yml
+*.md
