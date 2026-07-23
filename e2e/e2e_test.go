@@ -50,7 +50,7 @@ func newSession(t *testing.T, addr string) *mcp.ClientSession {
 	})
 
 	client := mcp.NewClient(&mcp.Implementation{Name: "atlantis-mcp-e2e", Version: "test"}, nil)
-	transport := &mcp.StreamableClientTransport{URL: "http://" + addr + "/mcp"}
+	transport := &mcp.StreamableClientTransport{Endpoint: "http://" + addr + "/mcp"}
 
 	// The server needs a moment to start listening; retry the connect instead
 	// of requiring the test to guess a fixed startup delay.
@@ -65,7 +65,7 @@ func newSession(t *testing.T, addr string) *mcp.ClientSession {
 			break
 		}
 		if time.Now().After(deadline) {
-			t.Fatalf("connect to MCP server at %q: %v", transport.URL, err)
+			t.Fatalf("connect to MCP server at %q: %v", transport.Endpoint, err)
 		}
 		time.Sleep(200 * time.Millisecond)
 	}
